@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI 能力等级测评</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23111827'/%3E%3Ctext x='32' y='39' text-anchor='middle' font-family='Arial' font-size='20' font-weight='800' fill='%2300b8a9'%3EAI%3C/text%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="topbar" aria-label="页面导航">
+      <a class="brand" href="#hero" aria-label="AI 能力等级测评首页">
+        <span class="brand-mark">AI</span>
+        <span>能力等级测评</span>
+      </a>
+      <nav class="nav-links" aria-label="主要导航">
+        <a href="#dimensions">维度</a>
+        <a href="#levels">等级</a>
+        <a href="#assessment">测评</a>
+      </nav>
+    </header>
+
+    <main>
+      <section id="hero" class="hero section-shell">
+        <div class="hero-copy">
+          <p class="eyebrow">AI CAPABILITY INDEX</p>
+          <h1>AI 能力等级测评</h1>
+          <p class="hero-subtitle">15 道情境题，测出你的 AI 使用等级与能力边界。</p>
+          <div class="hero-actions">
+            <button class="primary-btn" id="startButton" type="button">开始测评</button>
+            <a class="secondary-btn" href="#levels">查看等级说明</a>
+          </div>
+          <div class="hero-proof" aria-label="测评特点">
+            <span><b>15</b> 道题</span>
+            <span><b>5</b> 个维度</span>
+            <span><b>6</b> 个等级</span>
+          </div>
+        </div>
+
+        <aside class="dashboard-preview" aria-label="能力仪表盘预览">
+          <div class="preview-header">
+            <div>
+              <p class="panel-kicker">Preview score</p>
+              <strong>L4 协作型用户</strong>
+            </div>
+            <span class="score-chip">78 / 100</span>
+          </div>
+          <div class="preview-grid">
+            <div class="radar-wrap">
+              <svg id="heroRadar" class="radar" viewBox="0 0 240 240" role="img" aria-label="能力雷达图预览"></svg>
+            </div>
+            <div class="metric-stack" id="heroMetrics"></div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="info-strip section-shell" aria-label="测评说明">
+        <article>
+          <span>01</span>
+          <h2>5 个能力维度</h2>
+          <p>覆盖认知、表达、工具、流程、校验，评估真实 AI 应用能力。</p>
+        </article>
+        <article>
+          <span>02</span>
+          <h2>约 6 分钟完成</h2>
+          <p>单题聚焦，不做长问卷，让用户在短时间内完成有效判断。</p>
+        </article>
+        <article>
+          <span>03</span>
+          <h2>专属提升建议</h2>
+          <p>根据分数自动生成优势、短板和下一阶段训练路线。</p>
+        </article>
+      </section>
+
+      <section id="dimensions" class="dimensions section-shell">
+        <div class="section-heading">
+          <p class="eyebrow">Assessment dimensions</p>
+          <h2>它测的不是热闹，是你和 AI 协作的实际颗粒度</h2>
+        </div>
+        <div class="dimension-grid" id="dimensionGrid"></div>
+      </section>
+
+      <section id="levels" class="levels section-shell">
+        <div class="section-heading">
+          <p class="eyebrow">Level system</p>
+          <h2>6 个等级，从旁观到 AI 原生</h2>
+        </div>
+        <div class="level-track" id="levelTrack"></div>
+      </section>
+
+      <section id="assessment" class="assessment section-shell">
+        <div class="assessment-layout">
+          <div class="question-panel">
+            <div class="progress-area">
+              <div class="progress-copy">
+                <span id="questionCount">第 1 / 15 题</span>
+                <span id="currentDimension">AI 基础认知</span>
+              </div>
+              <div class="progress-bar" aria-hidden="true">
+                <span id="progressFill"></span>
+              </div>
+            </div>
+
+            <div id="questionState" class="question-state">
+              <p class="question-kicker" id="questionKicker">单题聚焦模式</p>
+              <h2 id="questionTitle"></h2>
+              <div id="optionsList" class="options-list"></div>
+            </div>
+
+            <div id="loadingState" class="loading-state" hidden>
+              <div class="scan-orbit" aria-hidden="true"></div>
+              <h2>正在分析你的 AI 能力结构</h2>
+              <p id="loadingText">点亮 AI 基础认知</p>
+            </div>
+
+            <div class="question-actions">
+              <button class="ghost-btn" id="prevButton" type="button">上一题</button>
+              <button class="ghost-btn" id="resetButton" type="button">重新开始</button>
+              <button class="primary-btn" id="nextButton" type="button">下一题</button>
+            </div>
+          </div>
+
+          <aside class="live-panel" aria-label="实时能力分布预览">
+            <div class="preview-header">
+              <div>
+                <p class="panel-kicker">Live profile</p>
+                <strong id="liveLevel">等待作答</strong>
+              </div>
+              <span class="score-chip" id="liveScore">0 / 100</span>
+            </div>
+            <svg id="liveRadar" class="radar" viewBox="0 0 240 240" role="img" aria-label="实时能力雷达图"></svg>
+            <div class="metric-stack" id="liveMetrics"></div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="result" class="result section-shell" hidden>
+        <div class="result-hero">
+          <div>
+            <p class="eyebrow">Your AI capability level</p>
+            <h2 id="resultLevel">L4 AI 协作型用户</h2>
+            <p id="resultSummary"></p>
+          </div>
+          <div class="result-score">
+            <span id="resultScore">78</span>
+            <small>/ 100</small>
+          </div>
+        </div>
+
+        <div class="result-grid">
+          <article class="result-radar">
+            <h3>五维能力雷达</h3>
+            <svg id="resultRadar" class="radar result-radar-svg" viewBox="0 0 240 240" role="img" aria-label="结果能力雷达图"></svg>
+            <div class="metric-stack" id="resultMetrics"></div>
+          </article>
+          <article class="advice-panel">
+            <h3>优势分析</h3>
+            <ul id="strengthList"></ul>
+          </article>
+          <article class="advice-panel">
+            <h3>短板分析</h3>
+            <ul id="weaknessList"></ul>
+          </article>
+          <article class="advice-panel next-plan">
+            <h3>下一阶段训练建议</h3>
+            <p id="nextPlan"></p>
+          </article>
+        </div>
+
+        <div class="result-actions">
+          <button class="primary-btn" id="restartButton" type="button">重新测评</button>
+          <button class="secondary-btn" id="saveButton" type="button">保存结果图</button>
+          <button class="secondary-btn" id="planButton" type="button">生成学习计划</button>
+        </div>
+      </section>
+    </main>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
